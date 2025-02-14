@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import axios, { AxiosError } from 'axios'
+import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -75,7 +76,9 @@ const LoginPage = () => {
         <label>Password</label>
       <Input type="password" placeholder="Password" value={user.password} onChange={(e)=> setUser({...user, password: e.target.value})}/>
       </div>
-      {loading? <Button className="w-full" disabled={true}>No Login</Button> :
+      {loading ? <Button className="w-full"  disabled={true}>
+        <Loader2 className='w-full animate-spin'/> Processing...
+        </Button> :
       <Button disabled={buttonDesable} onClick={onLogin} className="bg-blue-500 w-full text-white p-2 rounded-md">
       {buttonDesable? "No Login": "Login"}</Button>}
       <div className="text-center ">

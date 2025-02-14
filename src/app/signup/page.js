@@ -78,7 +78,7 @@ const SignupPage = () => {
       <Input type="password" placeholder="Password" value={user.password} onChange={(e)=> setUser({...user, password: e.target.value})}/>
         </div>
       {loading? <Button className="w-full"  disabled={true}>
-        <Loader2/> Processing...
+        <Loader2 className='w-full animate-spin'/> Processing...
         </Button> :
       <Button disabled={buttonDesable} onClick={onSignup} className="bg-blue-500 w-full mt-2 text-white p-2 rounded-md">
       {buttonDesable? "No Signup": "Signup"}</Button>}
