@@ -1,15 +1,16 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/hooks/use-toast'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 
 
 const SignupPage = () => {
   const router= useRouter();
+  const {toast}=useToast()
 
   const [user, setUser] = useState({name:"", username:"", email:"", password:""})
   const [loading, setLoading] = useState(false)
@@ -19,14 +20,30 @@ const SignupPage = () => {
     try {
       setLoading(true)
       const response = await axios.post("/api/users/signup", user)
-      console.log("Signup success", response.data);
-      toast.success("Signup success")
+      toast({
+        title:"Sent verification email",
+        description: `Please check your email to verify your account`,
+      })
       router.push("/login")
       
     } catch (error) {
       console.log("Singup failed", error);
-      toast.error(error.message)
+      if(error.response){
+        toast({
+          title: "Error",
+          description: `${error.response.data.message}. Please login with your email and password to continue`,
+          variant: "destructive",
+        })
+      }else{
+        toast({
+          title: "Error",
+          description: "Failed to send verification email",
+          variant: "destructive",
+        })
+      }
       
+    }finally{
+      setLoading(false)
     }
   }
 
@@ -66,7 +83,7 @@ const SignupPage = () => {
           <p>
             Already a member?{" "}
             <Link href="/login" className="text-blue-600 hover:text-blue-800">
-              Sign in
+              Login
             </Link>
           </p>
         </div>

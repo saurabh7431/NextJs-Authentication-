@@ -1,7 +1,8 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import axios from 'axios'
+import { useToast } from '@/hooks/use-toast'
+import axios, { AxiosError } from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -13,21 +14,46 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false)
   const [buttonDesable, setButtonDesable] = useState(false)
   const router =useRouter()
-  const onLogin= async () => {
+  const {toast}=useToast()
+
+  // Login functionality
+  const onLogin = async () => {
     try {
-      setLoading(true)
-      const response = await axios.post("/api/users/login", user)
-      console.log("Login success", response.data);
-      toast.success("Login success")
-      router.push("/profile")
-      
-      
+      setLoading(true);
+      const response = await axios.post("/api/users/login", user);
+  
+      // Handle 200 response (successful login)
+      if (response.status === 200) {
+        toast({
+          title: "Login Successful",
+          description: `Welcome back, ${response.data.message}`,
+        });
+        router.push("/profile");
+      }
     } catch (error) {
-      console.log("Login failed", error);
-      toast.error(error.message)
-      
+      // Check if the error response exists
+      if (error.response) {
+        // Extract the error message from the response
+        toast({
+          title: "Login Failed",
+          description: error.response.data.message || "An error occurred during login.",
+          variant: "destructive",
+        });
+      } else {
+        // Handle cases where there's no response (e.g., network error)
+        toast({
+          title: "Login Failed",
+          description: "Something went wrong. Please try again later.",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+  
+  
+  
 
   useEffect(() => {
     if(user.email.length>0 && user.password.length>0){
