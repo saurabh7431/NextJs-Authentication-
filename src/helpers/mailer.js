@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import bcryptjs from 'bcryptjs';
 import User from '@/models/usersModel';
 
-export const sendEmail = async ({email, emailType, userId}) => {
+export const sendEmail = async ({email, emailType, userId, req}) => {
    try {
     
     //TODO: Configure nodemailer for usage
@@ -25,12 +25,15 @@ export const sendEmail = async ({email, emailType, userId}) => {
          pass: "cfhp qafr bclo ypdf"
        }
      });
-
+     const fullUrl = new URL(req.url, `http://${req.headers.host}`);
+     const baseUrl = `${fullUrl.protocol}//${fullUrl.host}`;
+     
+     //TODO: Add email verification/reset password link in email template
       const mailOptions={
             from: 'sanu17273@gmail.com', 
             to: email,
             subject: emailType === "VERIFY" ? "Verify your email" : "Reset your password", 
-            html: `<p> Click <a href="${process.env.DOMAIN}/verifyemail?token=${hashedtoken}">here </a> to 
+            html: `<p> Click <a href="${baseUrl}/verifyemail?token=${hashedtoken}">here </a> to 
             ${emailType === "VERIFY" ? "verify your email" : "verify your password"}
             or copy and paste the link below in your browser 
             <br> ${process.env.DOMAIN}/verifyemail?token=${hashedtoken}

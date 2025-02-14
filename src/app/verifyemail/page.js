@@ -10,7 +10,6 @@ const VerifyEmail = () => {
   const [error, setError]=useState(false)
   const router = useRouter();
 
-  // console.log("useRouter",router.query);
   
   const verifyEmail = async () => {
     try {

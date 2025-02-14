@@ -12,8 +12,6 @@ const router = useRouter()
 const getUserData = async () => {
   try {
     const response = await axios.post("/api/users/me")
-    // console.log(response.data);
-    
     setData(response.data)
     
   } catch (error) {

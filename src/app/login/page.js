@@ -6,7 +6,6 @@ import axios, { AxiosError } from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 
 const LoginPage = () => {
 
@@ -33,6 +32,7 @@ const LoginPage = () => {
     } catch (error) {
       // Check if the error response exists
       if (error.response) {
+        
         // Extract the error message from the response
         toast({
           title: "Login Failed",
@@ -80,7 +80,7 @@ const LoginPage = () => {
       {buttonDesable? "No Login": "Login"}</Button>}
       <div className="text-center ">
           <p>
-            Already a member?{" "}
+          Not a member yet?{" "}
             <Link href="/signup" className="text-blue-600 hover:text-blue-800">
               Sign in
             </Link>
