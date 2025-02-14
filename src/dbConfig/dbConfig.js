@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export async function connect() {
     try {
         const dbUri = process.env.MONGODB_URI;
+        
 
         if (!dbUri) {
             throw new Error("MongoDB URI is undefined. Please check your environment variables.");

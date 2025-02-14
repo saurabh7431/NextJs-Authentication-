@@ -10,7 +10,6 @@ export async function POST(request) {
     try {
         const reqBody= await request.json();
         const { name, username, email, password } = reqBody;
-        console.log(reqBody);
 
         const user= await User.findOne({email});
         if (user) {
@@ -26,7 +25,6 @@ export async function POST(request) {
             password: hasehdPassword,
         });
          const savedUser =await newUser.save();
-         console.log(savedUser);
 
          // Send verification email
         await sendEmail({email, emailType: "VERIFY", userId: savedUser._id});
