@@ -85,7 +85,7 @@ const LoginPage = () => {
           <p>
           Not a member yet?{" "}
             <Link href="/signup" className="text-blue-600 hover:text-blue-800">
-              Sign in
+              Signup
             </Link>
           </p>
         </div>
